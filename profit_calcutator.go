@@ -13,12 +13,12 @@ func main(){
 	fmt.Scan(&tr)
 
 	EBT = revenue - expenses
-	profit = EBT - (EBT*tr/100)
+	profit = EBT * (1 - tr/100)
 	ratio = profit/EBT
 
-	fmt.Printf("EBT: %f",EBT)
-	fmt.Printf("Profit: %f",profit)
-	fmt.Printf("Ratio: %f",ratio)
+	fmt.Println(EBT)
+	fmt.Println(profit)
+	fmt.Println(ratio)
 
 
 }
