@@ -11,13 +11,14 @@ func main(){
 	expenses = getInput("Enter expenses: ")
 	tr = getInput("Enter tax rate: ")
 
-	calculateVals(revenue,expenses,tr)
+	EBT,profit,ratio = calculateVals(revenue,expenses,tr)
 
 	fmt.Println(EBT)
 	fmt.Println(profit)
 	fmt.Println(ratio)
 
 }
+
 
 func getInput(text string) (userInput float64){
 	fmt.Print(text)
