@@ -32,3 +32,5 @@ func calculateVals(revenue,expenses,tr float64)(ebt,profit,ratio float64){
 	ratio = profit/ebt
 	return
 }
+
+// change
