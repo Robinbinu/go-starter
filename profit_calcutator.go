@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func main(){
+func main1(){
 	var revenue,expenses,tr,EBT,profit,ratio float64
 
 	revenue = getInput("Enter revenue: ")
