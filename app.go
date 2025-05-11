@@ -12,21 +12,31 @@ func writeToFile(data string){
 	os.WriteFile(filePath,[]byte(data),0644)
 }
 
-func readFromFile(){
-	byteData, _ := os.ReadFile(filePath)
+func readFromFile() (err error){
+	byteData, err := os.ReadFile(filePath) //error handling
+	if err != nil{
+		return
+	}
 	text := string(byteData)
 	num, _ := strconv.ParseInt(text,10,64)
 	fmt.Println(num)
+	return
 }
 
 func main(){
+
+	// panic("First panic")
+
 	var val string;
 
 	fmt.Print("Enter a value :")
 	fmt.Scan(&val)
 
-	writeToFile(val)
-	readFromFile()
+	// writeToFile(val)
+	err:=readFromFile()
+	if err != nil{
+		panic(err)
+	}
 
 }
 
