@@ -1,4 +1,4 @@
-package main
+package fileops
 
 import(
     "fmt"
@@ -8,11 +8,11 @@ import(
 
 var filePath = "data.txt"
 
-func writeToFile(data string){
+func WriteToFile(data string){
 	os.WriteFile(filePath,[]byte(data),0644)
 }
 
-func readFromFile() (err error){
+func ReadFromFile() (err error){
 	byteData, err := os.ReadFile(filePath) //error handling
 	if err != nil{
 		return
