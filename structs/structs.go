@@ -17,6 +17,11 @@ func (user User) printDetails(){
 	fmt.Println(user.timeCreated)
 }
 
+func (user User) clearName(){
+	user.firstName = ""
+	user.lastName = ""
+}
+
 func main(){
 	newUser := User{
 		firstName: "Joe",
@@ -24,7 +29,10 @@ func main(){
 		timeCreated: time.Now(),
 	}
 
-	newUser.printDetails();
+	newUser.printDetails() //Joe Doe 2025-05-12 09:07:20.354820494 +0000 UTC m=+0.000034325
+	newUser.clearName()
+	newUser.printDetails() //Joe Doe 2025-05-12 09:07:20.354820494 +0000 UTC m=+0.000034325
+
 }
 
 
