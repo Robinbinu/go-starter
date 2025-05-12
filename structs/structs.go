@@ -11,6 +11,13 @@ type User struct {
 	timeCreated time.Time
 }
 
+func newUser(firstName,lastname string) User{
+	return User{
+		firstName: firstName,
+		lastName: lastname,
+	}
+}
+
 func (user User) printDetails(){
 	fmt.Println(user.firstName)
 	fmt.Println(user.lastName)
@@ -23,16 +30,10 @@ func (user User) clearName(){
 }
 
 func main(){
-	newUser := User{
-		firstName: "Joe",
-		lastName: "Doe",
-		timeCreated: time.Now(),
-	}
-
-	newUser.printDetails() //Joe Doe 2025-05-12 09:07:20.354820494 +0000 UTC m=+0.000034325
-	newUser.clearName()
-	newUser.printDetails() //Joe Doe 2025-05-12 09:07:20.354820494 +0000 UTC m=+0.000034325
-
+	nUser := newUser("Bob","Joe")
+	fmt.Println(nUser.firstName)
+	fmt.Println(nUser.lastName)
+	fmt.Println(nUser.timeCreated)
 }
 
 
