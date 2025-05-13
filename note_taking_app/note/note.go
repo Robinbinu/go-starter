@@ -10,9 +10,9 @@ import (
 )
 
 type Note struct {
-	Title       string
-	Content     string
-	TimeCreated time.Time
+	Title       string    `json:"title"` //struct tag, used to let json package know to use this alias as the key
+	Content     string 	  `json:"content"`
+	TimeCreated time.Time `json:"created_at"`
 }
 
 func New(title, content string) (Note, error) {
