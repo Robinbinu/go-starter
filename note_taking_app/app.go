@@ -1,30 +1,30 @@
 package main
 
 import (
-	"errors"
 	"fmt"
-	"time"
+	"example.com/note/note"
 )
 
-type Note struct{
-	title string
-	content string
-	timeCreated time.Time
-}
 
 func main(){
-
-	title,_:=getUserInput("Note title: ")
-	content,_:=getUserInput("Note content: ")
-	fmt.Println(title)	
-	fmt.Print(content)						
+	newNote,_ := getNoteData()
+	newNote.PrintNoteDetails()
 }
 
-func getUserInput(text string) (value string, err error){
+func getNoteData()(newNote note.Note,err error){
+	title:=getUserInput("Note title: ")
+	content:=getUserInput("Note content: ")
+	newNote,err= note.New(title,content)
+	if err != nil{
+		return note.Note{},err
+	}
+	return newNote,nil
+}
+
+
+
+func getUserInput(text string) (value string){
 	fmt.Print(text)
 	fmt.Scanln(&value)
-	if value == ""{
-		return "",errors.New("invalid input")
-	}
-	return value,nil
+	return value
 }
