@@ -7,9 +7,19 @@ import (
 	"strings"
 
 	"example.com/note/note"
+	"example.com/note/todo"
 )
 
-func errorFound(err error) bool{
+type saver interface {
+	Save() error
+}
+
+type outputable interface{
+	Display()
+	saver //embedded interface
+}
+
+func errorFound(err error) bool {
 	if err != nil {
 		fmt.Println(err)
 		return true
@@ -19,38 +29,69 @@ func errorFound(err error) bool{
 
 func main() {
 	newNote, err := getNoteData()
-	if errorFound(err){return}
+	if errorFound(err) {
+		return
+	}
 
-	newNote.Display()
+	newTodo, err := getTodoData()
+	if errorFound(err) {
+		return
+	}
 
-	err = newNote.Save()
+	err = outputFile(newNote)
 	if errorFound(err){return}
 	fmt.Println("note saved successfully")
+
+	outputFile(newTodo)
+	fmt.Println("Todo saved sussesfully")
 
 }
 
 func getNoteData() (newNote note.Note, err error) {
-	title,_ := getUserInput("Note title: ")
-	content,_ := getUserInput("Note content: ")
+	title, _ := getUserInput("Note title: ")
+	content, _ := getUserInput("Note content: ")
 	newNote, err = note.New(title, content)
-	if err != nil {
+	if errorFound(err) {
 		return note.Note{}, err
 	}
 	return newNote, nil
 }
 
-func getUserInput(text string) (value string,err error) {
+func getTodoData() (newTodo todo.Todo, err error) {
+	content, _ := getUserInput("Enter Todo: ")
+	newTodo, err = todo.New(content)
+	if errorFound(err) {
+		return todo.Todo{}, err
+	}
+	return newTodo, nil
+}
+
+func getUserInput(text string) (value string, err error) {
 	fmt.Print(text)
 	// fmt.Scanln(&value) commented because Scan often gets messy with strings separated
 	reader := bufio.NewReader(os.Stdin)
-	value,err = reader.ReadString('\n')
-	if err != nil{
-		return "",err
+	value, err = reader.ReadString('\n')
+	if errorFound(err) {
+		return "", err
 	}
 
-	value = strings.TrimSuffix(value,"\n") //if not added the strings has a new line by default
-	value = strings.TrimSuffix(value,"\r") //windows ends strings with \r\n
+	value = strings.TrimSuffix(value, "\n") //if not added the strings has a new line by default
+	value = strings.TrimSuffix(value, "\r") //windows ends strings with \r\n
 
-	return value,nil
+	return value, nil
+}
 
+func saveFile(data saver) (err error) { //function implements the saver interface
+	err = data.Save()
+	if errorFound(err) {
+		return
+	}
+	return nil
+}
+
+func outputFile(data outputable)(err error){
+	data.Display()
+	err = saveFile(data)
+	if errorFound(err){return err}
+	return nil
 }
