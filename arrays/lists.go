@@ -18,4 +18,7 @@ func main(){
    fmt.Println(slicedArr1)
    fmt.Println(n)
    fmt.Println(c)
+   toBeAppended := []int{1,3,4}
+   apArr := append(arr,toBeAppended...) // . . . used to unpack the list
+   fmt.Println(apArr)
 }
