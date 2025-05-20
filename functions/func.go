@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 )
+type transformedFn func(int)int
 
 func main() {
 	numbers := []int{1, 2, 3, 4}
@@ -10,7 +11,7 @@ func main() {
 	fmt.Println(transformNumbers(numbers, triple))
 }
 
-func transformNumbers(nums []int, transform func(int) int) []int {
+func transformNumbers(nums []int, transform transformedFn) []int {
 	transformedNums := []int{}
 	for _, val := range nums {
 		transformedNums = append(transformedNums, transform(val))
@@ -21,6 +22,7 @@ func transformNumbers(nums []int, transform func(int) int) []int {
 func double(num int) int {
 	return num * 2
 }
+
 
 func triple(num int) int {
 	return num * 3
