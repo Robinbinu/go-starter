@@ -12,6 +12,5 @@ func main() {
 
 	delete(alphabets,"C")
 	fmt.Println(alphabets) //map[A:Apple B:Bat]
-
 	
 }

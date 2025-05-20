@@ -10,6 +10,7 @@ func main() {
 	fmt.Println(transformNumbers(numbers,getTransformFn(numbers))) //[2 4 6 8]
 	numbers[0] = 3
 	fmt.Println(transformNumbers(numbers,getTransformFn(numbers))) //[9 6 9 12]
+	fmt.Println(transformNumbers(numbers,func(i int) int {return i*4})) //[12 8 12 16]
 }
 
 func transformNumbers(nums []int, transform transformedFn) []int {
