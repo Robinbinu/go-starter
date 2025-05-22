@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	price "pc/price"
 )
 
@@ -9,7 +10,9 @@ func main() {
 	for _,taxRate := range taxRates{
 		job:=price.NewTaxIncludedPriceJob(taxRate)
 		job.Process()
-		job.LoadData()
+		fmt.Println(job)
 	}
+
+	
 
 }

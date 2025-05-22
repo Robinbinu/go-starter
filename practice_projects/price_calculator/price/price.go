@@ -1,62 +1,49 @@
 package price
 
 import (
-	"bufio"
 	"fmt"
-	"os"
-	"strconv"
+	"pc/conversion"
+	"pc/filemanager"
 )
 
 type TaxIncludedPriceJob struct{
 	Prices []float64
 	TaxRate float64
-	TaxIncludedPrices map[string] float64
+	TaxIncludedPrices map[string] string
 }
 
 func (job *TaxIncludedPriceJob) LoadData(){
-	file,err := os.Open("prices.txt")
-	if(err != nil){
-		fmt.Println("File Open Failed!!!")
-		fmt.Println(err)
-	}
-
-	scanner := bufio.NewScanner(file)
-
-	lines := []string{}
-
-	for scanner.Scan(){
-		lines = append(lines, scanner.Text())
-	}
-
-	err = scanner.Err()
+	
+	//read text from file
+	path := "prices.txt"
+	lines,err := filemanager.ReadLines(path)
 	if err != nil {
-		fmt.Println("Reading file failed!")
 		fmt.Println(err)
 	}
-
 	//convert string to float
-	result := make([]float64,len(lines))
-
-	for lineIndex,line := range lines{
-		result[lineIndex],err = strconv.ParseFloat(line,64)
-		if err != nil {
-			fmt.Println("Error Converting String to float")
-			fmt.Println(err)
-		}
+	job.Prices,err = conversion.StringsToFloat(lines)
+	if err != nil {
+		fmt.Println(err)
 	}
-
-	job.Prices = result
 
 
 }
 
 func (job *TaxIncludedPriceJob) Process(){
-	result := map[string]float64{}
+	job.LoadData()
+
+	result := map[string]string{}
+
 	for _,price := range job.Prices{
-		result[fmt.Sprintf("%.2f",price)] = price*(1+job.TaxRate)
+		formattedPrice := fmt.Sprintf("%.2f",price*(1+job.TaxRate))
+		result[fmt.Sprintf("%.2f",price)] = formattedPrice
 	}
 	//did't work previously since pointer was not used so copy was created
 	job.TaxIncludedPrices = result
+	err:=filemanager.WriteJson(fmt.Sprintf("result_taxRate_%.2f.json",job.TaxRate),job)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 //constructor func specific to struct
